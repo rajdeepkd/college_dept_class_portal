@@ -1,0 +1,50 @@
+{% extends 'course/basic_page.html' %}
+{% block course_active %}active{% endblock %}
+
+
+{% block body %}
+<br>
+<div class="container-fluid songs-container" style=" color: black ;font-family:sans-serif;font-size: 18px; padding-left : 5%">
+    <p style="padding-left:1%;color:white;"> <a href="{% url 'course:index'  %}" style="color:white;">Home</a> > <a href="{% url 'course:detail' course.id  %}" style="color:white;">{{ course.code }} -  {{ course.name }}</a> > <a href="#" style="color:white;">Resources</a>
+    <div class="row">
+
+    <div class="col-sm-6 col-md-3">
+            <div class="panel panel-default" style="background-color: #e3f0e8; border: 3px solid #ffffff; padding: 5%; border-radius: 10px; margin-top: 10% ; box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);">
+
+                <div class="panel-body">
+                    <center>
+                    <a href="{% url 'course:detail' course.id %}">
+                        {% if course.course_logo %}
+                            <img src="{{ course.course_logo.url }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h1>{{ course.code }}<br> <small>{{ course.name }}</small></h1>
+                    <h2>{{ course.instructor }}</h2>
+                </center>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-sm-7" style="position:fixed-right;overflow-y: scroll; height:670px;border-radius: 10px;border: 1px solid #ffffff;background-color:#00000075;font-family: Calibri; font-size:16px; margin-top: 2%; box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)">
+            <h1 style="text-align:center;font-family:'Courier New', Courier, monospace ;font-size:50px;color: #ffffffe7;"> RESOURCES </h1>
+
+    {% for resource in resources reversed %}
+            <div style="background-color:#ffffffeb;padding:10px; margin:5px; color: black; border-radius: 10px;">
+        {{ resource.title }} -
+                <div style="position:right">
+        <a href="{{ resource.file_resource.url }}" style="text-align:right">
+            <button type="submit" class="btn btn-success">Download</button>
+        </a><br>
+                    </div>
+
+            </div>
+    {% endfor %}
+
+        </div>
+</div>
+</div>
+{% endblock %}

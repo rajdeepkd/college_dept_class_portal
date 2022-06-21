@@ -1,0 +1,107 @@
+{% extends 'instructor/instructor_basic_page.html' %}
+{% block title %}{{ course }}{% endblock %}
+{% block albums_active %}active{% endblock %}
+{% block body %}
+<br>
+<div class="container-fluid songs-container" style=" color: black ;font-family:sans-serif;font-size: 18px; padding-left : 5%">
+    <p style="padding-left:1%; color:white;"> <a href="{% url 'instructor:instructor_index' %}" style="color:white;">Home</a> > <a href="#" style="color:white;">{{ course.code }} -  {{ course.name }}</a>
+
+    <div class="row">
+        <!-- Left Album Info -->
+        <div class="col-sm-4 col-lg-3">
+            <div class="panel panel-default" style="background-color: #e3f0e8 ;border: 3px solid #ffffff; padding: 1%; border-radius: 10px; margin-top: 40% ; box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);">
+                {% if course in courses %}
+                <div class="panel-body">
+                    <center>
+                        <a href="{% url 'instructor:instructor_detail' course.id %}">
+                        {% if course.course_logo %}
+                            <img  src="{{ course.course_logo.url }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    
+                    <h3 align="center">{{ course.code }}</h3>
+                            <div style="height: 60px">
+                                <p align="center" style="font-size:22px; font-weight: bold;">{{ course.name }}</p>
+                                <h4 align="center">Credits - {{ course.credits }}</h4>
+                            </div>
+                        </center>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9"style="color:white;">
+
+            <div class="col-sm-2">
+    <a href="{% url 'instructor:add_assignment' course.id %}">
+        <button type="submit" class="btn btn-success"style="font-size: large; padding:10%;margin-left:10px; width: 200px;box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);">Add assignment</button></a>
+            </div>
+
+
+            <div class="col-sm-2">
+    <a href="{% url 'instructor:view_all_assignments' course.id %}">
+        <button type="submit" class="btn btn-success"style="font-size: large; padding:10%;margin-left:80px; width: 200px;box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);">Submissions</button></a>
+            </div>
+
+
+
+            <div class="col-sm-2">
+    <a href="{% url 'instructor:add_resource' course.id %}">
+        <button type="submit" class="btn btn-success"style="font-size: large; padding:10%;margin-left:150px; width: 200px;box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);">Add materials</button></a>
+            </div>
+
+
+            <div class="col-sm-2">
+    <a href="{% url 'instructor:add_notification' course.id %}">
+        <button type="submit" class="btn btn-success"style="font-size: large; padding:10%; margin-left: 220px; width: 200px;box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);">Notify Students</button></a>
+            </div>
+
+
+            <div class="col-sm-4"></div>
+            <br><br><br>
+
+
+
+            <div class="col-sm-10" style="position:fixed-right;overflow-y: scroll; height:670px;border-radius: 10px;border: 1px solid #ffffff;background-color:#00000075;font-family: Calibri; font-size:16px; margin-top: 2%; box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);">
+
+                <h1 style="text-align:center;font-family:'Courier New', Courier, monospace ;font-size:50px;color: #ffffffe7"> INBOX </h1>
+
+
+                <br>
+                <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <span class="text-danger small">{{ field.errors }}</span>
+                        </div>
+
+                    <div class="col-sm-10" style="color: black;">{{ field }} <br>
+                    <button type="submit" style="margin-left:20px" class="btn btn-success">Send</button>
+                    </div>
+                    </div>
+                    {% endfor %}
+
+
+                </form>
+
+                {% for message in messages reversed %}
+                <br>
+                        <div style="background-color:#ffffffeb;padding:10px; margin:5px; color: black; border-radius: 10px;">
+                            <b>{{ message.sender }}</b><br>
+                            <div style="font-size:12px;">{{ message.time }}</div>
+                            {{ message.content }}<br>
+                        </div>
+            {% endfor %}
+                </div><br><br><br>
+                </div><br><br><br>
+            </div><br><br><br>
+        </div>
+        {% else %}
+            You are not enrolled in this course
+        {% endif %}
+        {% endblock %}
+        
+
